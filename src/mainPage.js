@@ -38,7 +38,7 @@ const o2x = require('object-to-xml');
 
 class OutlinedTextFields extends React.Component {
     state = {
-        name: 'Cat in the Hat',
+        name: '',
         age: '',
         multiline: 'Controlled',
         currency: 'EUR',
@@ -56,7 +56,6 @@ class OutlinedTextFields extends React.Component {
         const log = document.getElementById('log').value
         const changefreq = document.getElementById('changefreq').value
 
-       
         var obj = {
             '?xml version="1.0" encoding="UTF-8"?': null,
             urlset: {
@@ -75,10 +74,6 @@ class OutlinedTextFields extends React.Component {
         this.setState({
             xml: o2x(obj),
         })
-
-
-        console.log(o2x(obj));
-
     }
 
 
