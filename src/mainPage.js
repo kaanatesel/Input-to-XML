@@ -30,7 +30,13 @@ const styles = theme => ({
     },
     ButtonDiv:{
         textAlign: 'center',
-    }
+    },
+    [theme.breakpoints.down('sm')]: {
+        logo:{
+            width:'80%',
+            height:'80%',
+        }
+      },
 
 });
 
@@ -89,7 +95,7 @@ class OutlinedTextFields extends React.Component {
                 <Grid item xs={8}>
                 <Grid container className={classes.root} spacing={16}>
                         <Grid item  className={classes.ButtonDiv} xs={12}>
-                        <img src={require('./dominoslogo.png')} />
+                            <img className={classes.logo} src={require('./dominoslogo.png')} />
                         </Grid>
                     </Grid>
                     <Grid container className={classes.root} spacing={16}>
