@@ -112,7 +112,7 @@ class OutlinedTextFields extends React.Component {
                     </Grid>
                     <Grid container className={classes.ButtonDiv} spacing={16}>
                         <Grid item xs={12} className={classes.ButtonDiv}>
-                            <Button variant="outlined" onClick={this.ToXml} color="primary" className={classes.button}>
+                            <Button variant="contained" onClick={this.ToXml} color="primary" className={classes.button}>
                                 To XML
                             </Button>
                         </Grid>
