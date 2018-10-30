@@ -32,8 +32,7 @@ const styles = theme => ({
 
 });
 
-//const o2x = require('object-to-xml');
-
+const o2x = require('object-to-xml');
 
 
 class OutlinedTextFields extends React.Component {
@@ -55,34 +54,39 @@ class OutlinedTextFields extends React.Component {
     ToXml = () => {
         const log = document.getElementById('log').value
 
-        const splitedLines = log.split(" ")
         const splitedInput = log.split("#")
 
-        for( let i = 0 ; i < splitedLines.length ; i++){
-            for(let u = 0 ; u < splitedInput.length ; u++) {
-                console.log(splitedInput[u])
-              }
+
+        for (let i = 0; i < splitedInput.length; i++) {
+            let loc = ""
+            let changefreq = ""
+
+            if (i % 2 === 0) {
+                loc = splitedInput[i]
+                changefreq = splitedInput[i + 1]
+                console.log(loc + '---' + changefreq)
+
+                let obj = {
+                    '?xml version="1.0" encoding="UTF-8"?': null,
+                    urlset: {
+                        '@': {
+                            xmlns: "https://www.sitemaps.org/schemas/sitemap/0.9",
+                        },
+                        '#': { 
+                            url: {
+                                loc: loc,
+                                changefreq: changefreq,
+                            },
+                        }
+                    }
+                };
+                this.setState({
+                    xml: o2x(obj),
+                })
+            } else {
+
+            }
         }
-        
-
-            // let obj = {
-            //     '?xml version="1.0" encoding="UTF-8"?': null,
-            //     urlset: {
-            //         '@': {
-            //             xmlns: "https://www.sitemaps.org/schemas/sitemap/0.9",
-            //         },
-            //         '#': {
-            //             url: {
-            //                 loc: splitedInput[0],
-            //                 changefreq: splitedInput[1],
-            //             }
-            //         }
-            //     }
-            // };
-
-            // this.setState({
-            //     xml: o2x(obj),
-            // })
     }
 
 
