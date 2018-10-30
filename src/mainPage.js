@@ -11,7 +11,7 @@ const styles = theme => ({
         flexWrap: 'wrap',
     },
     textField: {
-        width: '400px',
+        width: '100%',
         height: '100%',
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
@@ -24,69 +24,56 @@ const styles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
-        marginLeft: '37%',
     },
     input: {
         display: 'none',
     },
+    ButtonDiv:{
+        textAlign: 'center',
+    }
 
 });
 
-const o2x = require('object-to-xml');
-
-
 class OutlinedTextFields extends React.Component {
     state = {
-        name: '',
-        age: '',
-        multiline: 'Controlled',
-        currency: 'EUR',
-        url: '',
+        inputValue: '',
+        urls: [],
         xml: '',
     };
 
-    handleChange = name => event => {
+    updateInputValue = event => {
         this.setState({
-            [name]: event.target.value,
+            inputValue: event.target.value,
         });
     };
 
     ToXml = () => {
-        const log = document.getElementById('log').value
 
-        const splitedInput = log.split("#")
+        const inputValue = this.state.inputValue;
 
-
-        for (let i = 0; i < splitedInput.length; i++) {
-            let loc = ""
-            let changefreq = ""
-
-            if (i % 2 === 0) {
-                loc = splitedInput[i]
-                changefreq = splitedInput[i + 1]
-                console.log(loc + '---' + changefreq)
-
-                let obj = {
-                    '?xml version="1.0" encoding="UTF-8"?': null,
-                    urlset: {
-                        '@': {
-                            xmlns: "https://www.sitemaps.org/schemas/sitemap/0.9",
-                        },
-                        '#': { 
-                            url: {
-                                loc: loc,
-                                changefreq: changefreq,
-                            },
-                        }
-                    }
-                };
-                this.setState({
-                    xml: o2x(obj),
-                })
-            } else {
-
-            }
+        const rows = inputValue.split('\n');
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>
+        <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+            {body}
+        </urlset>
+        `;
+        let urlList = [];
+        for (let i = 0; i < rows.length - 1; i++) {
+            let row = rows[i];
+            console.log(i, row);
+            let splitted = row.split('#');
+            urlList.push(`<url>
+            <loc>${splitted[0]}</loc>
+                <changefreq>${splitted[1]}</changefreq></url>`)
         }
+
+        let body = urlList.join('\n');
+        xml = xml.replace('{body}', body);
+        console.log(xml);
+        this.setState({
+            xml: xml
+        })
+
     }
 
 
@@ -100,39 +87,51 @@ class OutlinedTextFields extends React.Component {
 
                 </Grid>
                 <Grid item xs={8}>
+                <Grid container className={classes.root} spacing={16}>
+                        <Grid item  className={classes.ButtonDiv} xs={12}>
+                        <img src={require('./dominoslogo.png')} />
+                        </Grid>
+                    </Grid>
                     <Grid container className={classes.root} spacing={16}>
-                        <Grid item xs={12}> <form className={classes.container} noValidate autoComplete="off">
-                            <TextField
-                                id="log"
-                                label="log"
-                                placeholder="log"
-                                multiline
-                                className={classes.textField}
-                                margin="normal"
-                                variant="outlined"
-                                value={this.state.inputValue}
-                                onChange={this.updateInputValue}
-                            />
-                            <TextField
-                                id="xml"
-                                label="XML"
-                                placeholder=""
-                                multiline
-                                className={classes.textField}
-                                margin="normal"
-                                variant="outlined"
-                                value={this.state.xml}
-                                onChange={this.updateInputValue}
-                            />
-
-                        </form></Grid>
-                        <Grid item xs={12} >
+                        <Grid item xs={12}>
+                            <form className={classes.container} noValidate autoComplete="off">
+                                <TextField
+                                    id="INPUTLIST"
+                                    label="INPUTLIST"
+                                    placeholder="INPUTLIST"
+                                    multiline
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={this.state.inputValue}
+                                    onChange={this.updateInputValue}
+                                    rows={20}
+                                />
+                            </form>
+                        </Grid>
+                    </Grid>
+                    <Grid container className={classes.ButtonDiv} spacing={16}>
+                        <Grid item xs={12} className={classes.ButtonDiv}>
                             <Button variant="outlined" onClick={this.ToXml} color="primary" className={classes.button}>
                                 To XML
                             </Button>
                         </Grid>
+                        <Grid item xs={12}>
+                            <form className={classes.container} noValidate autoComplete="off">
+                                <TextField
+                                    id="xml"
+                                    label="XML"
+                                    placeholder=""
+                                    multiline
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={this.state.xml}
+                                    rows={20}
+                                />
+                            </form>
+                        </Grid>
                     </Grid>
-
                 </Grid>
                 <Grid item xs={2}></Grid>
 
