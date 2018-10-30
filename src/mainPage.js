@@ -32,7 +32,7 @@ const styles = theme => ({
 
 });
 
-const o2x = require('object-to-xml');
+//const o2x = require('object-to-xml');
 
 
 
@@ -54,26 +54,35 @@ class OutlinedTextFields extends React.Component {
 
     ToXml = () => {
         const log = document.getElementById('log').value
-        const changefreq = document.getElementById('changefreq').value
 
-        var obj = {
-            '?xml version="1.0" encoding="UTF-8"?': null,
-            urlset: {
-                '@': {
-                    xmlns:"https://www.sitemaps.org/schemas/sitemap/0.9",
-                },
-                '#': {
-                    url: {
-                        loc: log,
-                        changefreq: changefreq,
-                    }
-                }
-            }
-        };
+        const splitedLines = log.split(" ")
+        const splitedInput = log.split("#")
 
-        this.setState({
-            xml: o2x(obj),
-        })
+        for( let i = 0 ; i < splitedLines.length ; i++){
+            for(let u = 0 ; u < splitedInput.length ; u++) {
+                console.log(splitedInput[u])
+              }
+        }
+        
+
+            // let obj = {
+            //     '?xml version="1.0" encoding="UTF-8"?': null,
+            //     urlset: {
+            //         '@': {
+            //             xmlns: "https://www.sitemaps.org/schemas/sitemap/0.9",
+            //         },
+            //         '#': {
+            //             url: {
+            //                 loc: splitedInput[0],
+            //                 changefreq: splitedInput[1],
+            //             }
+            //         }
+            //     }
+            // };
+
+            // this.setState({
+            //     xml: o2x(obj),
+            // })
     }
 
 
@@ -93,17 +102,6 @@ class OutlinedTextFields extends React.Component {
                                 id="log"
                                 label="log"
                                 placeholder="log"
-                                multiline
-                                className={classes.textField}
-                                margin="normal"
-                                variant="outlined"
-                                value={this.state.inputValue}
-                                onChange={this.updateInputValue}
-                            />
-                            <TextField
-                                id="changefreq"
-                                label="changefreq"
-                                placeholder="changefreq"
                                 multiline
                                 className={classes.textField}
                                 margin="normal"
