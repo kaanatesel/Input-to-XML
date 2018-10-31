@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import MyTextField from './components/MyTextField'
 
 const styles = theme => ({
     container: {
@@ -28,24 +30,34 @@ const styles = theme => ({
     input: {
         display: 'none',
     },
-    ButtonDiv:{
+    ButtonDiv: {
         textAlign: 'center',
     },
     [theme.breakpoints.down('sm')]: {
-        logo:{
-            width:'80%',
-            height:'80%',
+        logo: {
+            width: '80%',
+            height: '80%',
         }
-      },
+    },
+    CopiedAlert: {
+        color: 'red'
+    }
 
 });
 
 class OutlinedTextFields extends React.Component {
-    state = {
-        inputValue: '',
-        urls: [],
-        xml: '',
-    };
+    constructor(props) {
+        super(props)
+        this.state = {
+            inputValue: '',
+            urls: [],
+            xml: '',
+            disabled: true,
+            copySuccess: '',
+        }
+        this.myxml = React.createRef()
+    }
+
 
     updateInputValue = event => {
         this.setState({
@@ -54,7 +66,6 @@ class OutlinedTextFields extends React.Component {
     };
 
     ToXml = () => {
-
         const inputValue = this.state.inputValue;
 
         const rows = inputValue.split('\n');
@@ -66,7 +77,6 @@ class OutlinedTextFields extends React.Component {
         let urlList = [];
         for (let i = 0; i < rows.length - 1; i++) {
             let row = rows[i];
-            console.log(i, row);
             let splitted = row.split('#');
             urlList.push(`<url>
             <loc>${splitted[0]}</loc>
@@ -75,26 +85,35 @@ class OutlinedTextFields extends React.Component {
 
         let body = urlList.join('\n');
         xml = xml.replace('{body}', body);
-        console.log(xml);
-        this.setState({
-            xml: xml
-        })
 
+        this.setState({
+            xml: xml,
+            disabled: false,
+        })
     }
 
+    ToCopy = () => {
+        const xmlValue = this.myxml.current
+        console.log(this.myxml)
+        this.myxml.current.select();
+        document.execCommand("copy");
+        
+        this.setState({
+            copySuccess: 'Copied !',
+        })
+    }
 
     render() {
 
         const { classes } = this.props;
-
         return (
             <Grid container className={classes.root} spacing={16}>
                 <Grid item xs={2}>
 
                 </Grid>
                 <Grid item xs={8}>
-                <Grid container className={classes.root} spacing={16}>
-                        <Grid item  className={classes.ButtonDiv} xs={12}>
+                    <Grid container className={classes.root} spacing={16}>
+                        <Grid item className={classes.ButtonDiv} xs={12}>
                             <img className={classes.logo} src={require('./dominoslogo.png')} />
                         </Grid>
                     </Grid>
@@ -121,15 +140,26 @@ class OutlinedTextFields extends React.Component {
                             <Button variant="contained" onClick={this.ToXml} color="primary" className={classes.button}>
                                 To XML
                             </Button>
+                            <Button variant="contained"
+                                disabled={this.state.disabled}
+                                color="primary"
+                                onClick={this.ToCopy}
+                                className={classes.button}>
+                                Copy to clipboard
+                            </Button>
+                            <Typography variant="h6" className={classes.CopiedAlert} gutterBottom>
+                                {this.state.copySuccess}
+                            </Typography>
+
                         </Grid>
                         <Grid item xs={12}>
-                            <form className={classes.container} noValidate autoComplete="off">
-                                <TextField
+                            <form className={classes.container} onSelect={this.copied} noValidate autoComplete="off">
+                                <MyTextField
                                     id="xml"
+                                    ref={this.myxml}
                                     label="XML"
-                                    placeholder=""
-                                    multiline
-                                    className={classes.textField}
+                                    placeholder="XML"
+                                    onChange={(e) => this.setState({ xml: e.target.value })}
                                     margin="normal"
                                     variant="outlined"
                                     value={this.state.xml}
