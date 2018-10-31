@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import MyTextField from './components/MyTextField'
+import DownloadBtn from './components/downloadButton'
 
 const styles = theme => ({
     container: {
@@ -93,14 +94,28 @@ class OutlinedTextFields extends React.Component {
     }
 
     ToCopy = () => {
-        const xmlValue = this.myxml.current
         console.log(this.myxml)
         this.myxml.current.select();
         document.execCommand("copy");
-        
+
         this.setState({
             copySuccess: 'Copied !',
         })
+    }
+
+    forDownload = () => {
+        const xml = this.myxml.current.value
+
+        const element = xml
+        let blob = new Blob([element], { type: 'plain/text' })
+        let url = URL.createObjectURL(blob);
+
+        let a = document.createElement("a")
+        a.href = url;
+        a.download = 'xml.txt';
+        a.click();
+        window.URL.revokeObjectURL(url);
+
     }
 
     render() {
@@ -132,6 +147,7 @@ class OutlinedTextFields extends React.Component {
                                     onChange={this.updateInputValue}
                                     rows={20}
                                 />
+
                             </form>
                         </Grid>
                     </Grid>
@@ -147,6 +163,11 @@ class OutlinedTextFields extends React.Component {
                                 className={classes.button}>
                                 Copy to clipboard
                             </Button>
+                            <DownloadBtn
+                                onClick={this.forDownload}
+                            >
+                                download
+                            </DownloadBtn>
                             <Typography variant="h6" className={classes.CopiedAlert} gutterBottom>
                                 {this.state.copySuccess}
                             </Typography>
