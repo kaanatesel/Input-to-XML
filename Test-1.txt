@@ -1,6 +1,6 @@
-https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split5#weekly# 
-https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split3#daily#
-https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split2#weekly# 
+https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split5#weekly
+https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split3#daily
+https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split2#weekly
 https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split1#daily
 
 
@@ -8,4 +8,22 @@ https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split1#daily
 
 aaaaaaaaaaaaaaa#XXXXXX#
 bbbbbbbbbbbbbbb#YYYYYY#
-ccccccccccccccc#TTTTTT
+ccccccccccccccc#TTTTTT#
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc> 
+https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_split3</loc>
+    <changefreq>daily</changefreq>
+  </url>
+</urlset>
+
+
+
+<?xml version="1.0"?>
+<root foo="value">
+<tag>Some content</tag>
+</root>
