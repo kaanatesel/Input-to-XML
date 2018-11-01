@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import MyTextField from './components/MyTextField'
+import Paper from '@material-ui/core/Paper';
 import DownloadBtn from './components/downloadButton'
 
 const styles = theme => ({
@@ -42,7 +43,13 @@ const styles = theme => ({
     },
     CopiedAlert: {
         color: 'red'
-    }
+    },
+    Paper: {
+        ...theme.mixins.gutters(),
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
+        backgroundColor:'#F0E68C',
+      },
 
 });
 
@@ -55,6 +62,7 @@ class OutlinedTextFields extends React.Component {
             xml: '',
             disabled: true,
             copySuccess: '',
+            disabledTXML: true,
         }
         this.myxml = React.createRef()
     }
@@ -64,6 +72,19 @@ class OutlinedTextFields extends React.Component {
         this.setState({
             inputValue: event.target.value,
         });
+
+        console.log(this.state.inputValue)
+
+        if (this.inputValue === null) {
+            this.setState({
+                disabledTXML: true
+            })
+
+        } else {
+            this.setState({
+                disabledTXML: false
+            })
+        }
     };
 
     ToXml = () => {
@@ -131,6 +152,19 @@ class OutlinedTextFields extends React.Component {
                         <Grid item className={classes.ButtonDiv} xs={12}>
                             <img className={classes.logo} src={require('./dominoslogo.png')} />
                         </Grid>
+                        <Grid item className={classes.ButtonDiv} xs={12}>
+                            <Paper className={classes.Paper} elevation={1}>
+                                <Typography variant="h5" component="h3">
+                                    This is a webpage.
+                                </Typography>
+                                <Typography component="p">
+                                    This can help you to turn your values to XML format.
+                                </Typography>
+                                <Typography component="p">
+                                FORMAT should be = https://localhost:3000#weekly
+                                </Typography>
+                            </Paper>
+                        </Grid>
                     </Grid>
                     <Grid container className={classes.root} spacing={16}>
                         <Grid item xs={12}>
@@ -153,7 +187,12 @@ class OutlinedTextFields extends React.Component {
                     </Grid>
                     <Grid container className={classes.ButtonDiv} spacing={16}>
                         <Grid item xs={12} className={classes.ButtonDiv}>
-                            <Button variant="contained" onClick={this.ToXml} color="primary" className={classes.button}>
+                            <Button variant="contained"
+                                onClick={this.ToXml}
+                                color="primary"
+                                className={classes.button}
+                                disabled={this.state.disabledTXML}
+                            >
                                 To XML
                             </Button>
                             <Button variant="contained"
@@ -168,7 +207,7 @@ class OutlinedTextFields extends React.Component {
                                 color="primary"
                                 onClick={this.forDownload}
                                 className={classes.button}>
-                                Copy to clipboard
+                                Download
                             </Button>
                             {/* <DownloadBtn
                                 disabled={false}
