@@ -164,6 +164,7 @@ class OutlinedTextFields extends React.Component {
                                 Copy to clipboard
                             </Button>
                             <DownloadBtn
+                                disabled={false}
                                 onClick={this.forDownload}
                             >
                                 download
@@ -175,9 +176,11 @@ class OutlinedTextFields extends React.Component {
                         </Grid>
                         <Grid item xs={12}>
                             <form className={classes.container} onSelect={this.copied} noValidate autoComplete="off">
-                                <MyTextField
+                                <TextField
                                     id="xml"
                                     ref={this.myxml}
+                                    className={classes.textField}
+                                    multiline
                                     label="XML"
                                     placeholder="XML"
                                     onChange={(e) => this.setState({ xml: e.target.value })}
