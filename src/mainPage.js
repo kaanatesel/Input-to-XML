@@ -163,12 +163,19 @@ class OutlinedTextFields extends React.Component {
                                 className={classes.button}>
                                 Copy to clipboard
                             </Button>
-                            <DownloadBtn
+                            <Button variant="contained"
+                                disabled={this.state.disabled}
+                                color="primary"
+                                onClick={this.forDownload}
+                                className={classes.button}>
+                                Copy to clipboard
+                            </Button>
+                            {/* <DownloadBtn
                                 disabled={false}
                                 onClick={this.forDownload}
                             >
                                 download
-                            </DownloadBtn>
+                            </DownloadBtn> */}
                             <Typography variant="h6" className={classes.CopiedAlert} gutterBottom>
                                 {this.state.copySuccess}
                             </Typography>
@@ -176,10 +183,11 @@ class OutlinedTextFields extends React.Component {
                         </Grid>
                         <Grid item xs={12}>
                             <form className={classes.container} onSelect={this.copied} noValidate autoComplete="off">
-                                <TextField
+                                <MyTextField
                                     id="xml"
                                     ref={this.myxml}
                                     className={classes.textField}
+                                    disabled={this.state.disabled}
                                     multiline
                                     label="XML"
                                     placeholder="XML"
